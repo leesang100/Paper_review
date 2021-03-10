@@ -55,8 +55,10 @@
         - 디코더에서는 인코더와 달리 순차적으로 결과를 만들어내야 하기 때문에,self- attention을 변형(masking)
         - masking을 통해, position i보다 이후에 있는 position에 attention을 주지 못하게 함
         - 즉,position i에 대한 예측은 미리 알고 있는 output들에만 의존을 하는 것
+        - 
        ![image](https://user-images.githubusercontent.com/70500214/110664780-0e3c0e00-820b-11eb-81a3-2c4ad1cbf7ec.png)
-        -a를 예측할 때는 a 이후에 있는 b,c에는 attention이 주어지지않음
+       
+        - a를 예측할 때는 a 이후에 있는 b,c에는 attention이 주어지지않음
         
     # Attenion
      - attention은 단어의 의미처럼 특정 정보에 좀 더 주의를 기울이는 것
@@ -106,7 +108,7 @@
     # Position-wise Feed-Forward Networks
      - attention sub-layer 외에도, 인코더와 디코더의 각 layer은 완전히 연결된 Feed-Forward 네트워크를 포함, 이 네트워크는 각 위치에 개별적으로 그리고 동일하게 적용(position-wise)
      - 네트워크는 두 번의 linear transformation과 activation function ReLU로 이루어짐
-     ![Uploading image.png…]()
+     ![image](https://user-images.githubusercontent.com/70500214/110675554-5c0a4380-8216-11eb-95df-7e0a1a418e6c.png)
      - 서로 다른 위치에서 linear transformation은 동일하지만 layer마다 매개변수는 다르게 사용
      - kernel size가 1이고 channel이 layer인 convolution을 두번 수행한 것으로도 위 과정을 이해 가능
      - 입출력 치수는  d<sup>model</sup>=512 그리고 내부 layer의 치수는 d<sub>ff</sub>=2048
@@ -120,6 +122,10 @@
      - transformer는 recurrence와 convolution이 없기 때문에 모델이 시퀀스의 순서를 이용하기 위해서는 시퀀스에서 토큰의 상대적 또른 절대적 위치에 대한 정보를 주입해야함
      - 이를 위해, 인코더와 디코더 스택의 하단에 있는 입력 임베딩에 'positional encoding'을 추가
      - positional encoding은 임베딩과 동일한 치수 모델을 가지므로 두개를 합칠 수 있음
+     - 이 작업에서 주파수가 다른 사인,코사인 함수 사용
+     ![image](https://user-images.githubusercontent.com/70500214/110675566-5f053400-8216-11eb-9381-4e0a2aba70cc.png)
+     - pos는 위치이고 i는 치수, positional encoding의 각 치수는 sinusoid에 해당
+     - 파장은 2μ에서 10000·2μ까지의 기하학적인 전진을 형성
      - 
     
 
