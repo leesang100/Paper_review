@@ -91,24 +91,26 @@
     
     # Applications of Attention in out Model
      - transformer는 세가지 다른 방식으로 다중 헤드 어텐션을 사용
-        - 인코더-디코더 attention layer에서 query는 이전 디코더 계층에서 나오고 key와 value값은 인코더의 출력에서 나옴
-        - 이렇게 하면 디코더의 모든 위치가 입력 시퀀스의 모든 위치에 참석 가능
-        - 시퀀스 간 모델에서 일반적인 인코더-디코더 attention 메커니즘을 모방
+      - 인코더-디코더 attention layer에서 query는 이전 디코더 계층에서 나오고 key와 value값은 인코더의 출력에서 나옴
+      - 이렇게 하면 디코더의 모든 위치가 입력 시퀀스의 모든 위치에 참석 가능
+      - 시퀀스 간 모델에서 일반적인 인코더-디코더 attention 메커니즘을 모방
 
-        - 인코더에는 self-attention layer가 포함 됨
-        - self-attention layer에서 모든 key,value,query는 동일한 위치에서 옴
-        - 따라서 인코더의 각 위치는 이전 layer의 모든 위치를 고려할 수 있음
-        - 만약 첫번째 layer라면 positional encoding이 더해진 input embedding이 됨
+      - 인코더에는 self-attention layer가 포함 됨
+      - self-attention layer에서 모든 key,value,query는 동일한 위치에서 옴
+      - 따라서 인코더의 각 위치는 이전 layer의 모든 위치를 고려할 수 있음
+      - 만약 첫번째 layer라면 positional encoding이 더해진 input embedding이 됨
 
-        - 디코더도 비슷, 그러나 auto-regressive 속성을 보존하기 위해 디코더는 출력을 생성할 시 다음 출력을 고려해서는 안됨
-        - 즉 이전에 설명한 masking을 통해 이전 위치는 참조 불가능
-        - 이 masking은 dot-product를 수행할 때 -무한대로 설정함으로써 masking out시킴
-        - 이렇게 설정되면 softmax를 통과할때 0이되므로 position에 attention을 주는 경우가 없어짐
+      - 디코더도 비슷, 그러나 auto-regressive 속성을 보존하기 위해 디코더는 출력을 생성할 시 다음 출력을 고려해서는 안됨
+      - 즉 이전에 설명한 masking을 통해 이전 위치는 참조 불가능
+      - 이 masking은 dot-product를 수행할 때 -무한대로 설정함으로써 masking out시킴
+      - 이렇게 설정되면 softmax를 통과할때 0이되므로 position에 attention을 주는 경우가 없어짐
 
     # Position-wise Feed-Forward Networks
      - attention sub-layer 외에도, 인코더와 디코더의 각 layer은 완전히 연결된 Feed-Forward 네트워크를 포함, 이 네트워크는 각 위치에 개별적으로 그리고 동일하게 적용(position-wise)
      - 네트워크는 두 번의 linear transformation과 activation function ReLU로 이루어짐
+     
      ![image](https://user-images.githubusercontent.com/70500214/110675554-5c0a4380-8216-11eb-95df-7e0a1a418e6c.png)
+     
      - 서로 다른 위치에서 linear transformation은 동일하지만 layer마다 매개변수는 다르게 사용
      - kernel size가 1이고 channel이 layer인 convolution을 두번 수행한 것으로도 위 과정을 이해 가능
      - 입출력 치수는  d<sup>model</sup>=512 그리고 내부 layer의 치수는 d<sub>ff</sub>=2048
