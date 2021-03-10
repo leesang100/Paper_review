@@ -123,10 +123,15 @@
      - 이를 위해, 인코더와 디코더 스택의 하단에 있는 입력 임베딩에 'positional encoding'을 추가
      - positional encoding은 임베딩과 동일한 치수 모델을 가지므로 두개를 합칠 수 있음
      - 이 작업에서 주파수가 다른 사인,코사인 함수 사용
+     
      ![image](https://user-images.githubusercontent.com/70500214/110675566-5f053400-8216-11eb-9381-4e0a2aba70cc.png)
-     - pos는 위치이고 i는 치수, positional encoding의 각 치수는 sinusoid에 해당
-     - 파장은 2μ에서 10000·2μ까지의 기하학적인 전진을 형성
-     - 
+     
+     - pos는 position,i는 dimension이고 주기가 10000<sup>2i/d<sub>model</sub></sup>*2π인 삼각함수
+     - 즉,pos는 sequence에서 단어의 위치이고 해당 단어는 i에0부터 ![image](https://user-images.githubusercontent.com/70500214/110676249-1a2dcd00-8217-11eb-95d1-c566030070f5.png)까지를 대입해 d<sup>model</sup>차원의 positional encoding vector를 얻게 됨
+     - k=2i+1일 때는 cosine 함수를,k=2i일 때는 sine함수를 이용
+     - 이런 방식으로 positional encoding vencor를 pos마다 구한다면 비록 같은 column이라고 할지라도 pos가 다르다면 다른 값을 가지게 됨
+     - 즉,pos마다 다른 pos와 구분되는 positional encoding값을 얻게 된다는 것
+
     
 
 
