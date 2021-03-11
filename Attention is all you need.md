@@ -172,26 +172,39 @@
 ![image](https://user-images.githubusercontent.com/70500214/110745737-103fb480-827f-11eb-8b5f-972b6d3fd59d.png)
 
 # Results
+
    # Machine Translation
-    - WMT 2014 English-German translation작업에서 big-Transformer모델은 이전 보고된 모델들보다 더 좋은 성능을 나타냄
-    - 기본 transformer도 경쟁 모델의 교육 비용의 일부만으로 이전에 발표된 모든 모델과 앙상블을 능가
-    - WMT 2014 English-French translation작업에서 교육 비용의 1/4 미만으로 이전에 발표된 모든 단일 모델을 능하가는 점수를 달성
+   - WMT 2014 English-German translation작업에서 big-Transformer모델은 이전 보고된 모델들보다 더 좋은 성능을 나타냄
+   - 기본 transformer도 경쟁 모델의 교육 비용의 일부만으로 이전에 발표된 모든 모델과 앙상블을 능가
+   - WMT 2014 English-French translation작업에서 교육 비용의 1/4 미만으로 이전에 발표된 모든 단일 모델을 능하가는 점수를 달성
 
 ![image](https://user-images.githubusercontent.com/70500214/110747007-0a4ad300-8281-11eb-8880-a742b69d3682.png)
 
-![image](https://user-images.githubusercontent.com/70500214/110747033-120a7780-8281-11eb-89c5-4ad09aaf97f6.png)
-
    # Model Variations
-    - Transformer의 다양한 구성 요소의 중요성을 평가하기 위해 English-to-German 번역에 대한 성능 변화를 측정하면서 다양한 방식으로 기본 모델을 변화시킴
-    - Table3의 A에서 attention Head 수와  attetion key,attention value 값을 변화시킴
-    - single-head attention의 BLEU값이 최고 설정치보다 0.9 나쁜 반면,너무 많은 헤드와 함께 품질도 떨어짐
-    - B에서 attention key크기 d<sup>k</sup>를 줄이면 모델 품질이 저하되는것을 관찰
-    - 호환성 판정이 쉽지않고 dot product보다 더 젏교한 호환성 기능이 유리함을 시사
-    - C와D에서 예상대로 더 큰 모델이 더 좋고 dropout이 과적합을 피하는데 매우 도움된다고 관찰
-    - E행에서 sinusoids대신 positional embedding으로 교체하고 기본 모델과 거의 동일한 결과를 관찰
+   - Transformer의 다양한 구성 요소의 중요성을 평가하기 위해 English-to-German 번역에 대한 성능 변화를 측정하면서 다양한 방식으로 기본 모델을 변화시킴
+   - Table3의 A에서 attention Head 수와  attetion key,attention value 값을 변화시킴
+   - single-head attention의 BLEU값이 최고 설정치보다 0.9 나쁜 반면,너무 많은 헤드와 함께 품질도 떨어짐
+   - B에서 attention key크기 d<sup>k</sup>를 줄이면 모델 품질이 저하되는것을 관찰
+   - 호환성 판정이 쉽지않고 dot product보다 더 젏교한 호환성 기능이 유리함을 시사
+   - C와D에서 예상대로 더 큰 모델이 더 좋고 dropout이 과적합을 피하는데 매우 도움된다고 관찰
+   - E행에서 sinusoids대신 positional embedding으로 교체하고 기본 모델과 거의 동일한 결과를 관찰
 
+![image](https://user-images.githubusercontent.com/70500214/110747033-120a7780-8281-11eb-89c5-4ad09aaf97f6.png)
    # English Constituency Parsing
-    - Transformer가 다른 작업으로 
+   - Transformer가 다른 작업으로 일반화할 수 있는지 평가하기 위해 영어 구성요소 구문 분석에 대한 실험을 수행
+   - 이 작업은 특정한 과제를 제시하는데,출력은 강력한 구조적 제약을 받으면 입력보다 훨씬 길다.
+   - 또한 RNN sequence to sequence 모델은 소규모 데이터 체제에서 최첨단 결과를 얻을 수 없음
+   - Penn Treebank의 WSJ부분에서 d<sup>model</sup>=1024로 약 40K훈련 문장으로 4단 layer transformer를 훈련
+   - 또한 약 17M 문장으로 보다 큰 신뢰성과 BerkleyParser corpora를 사용하여 semi-supervised 환경에서 훈련
+   - WSJ 전용 설정에 16K 토큰의 어휘와 semi-supervised 설정에 32K 토큰의 어휘를 사용
+   - 추론하는 동안 최대 출력 길이를 +300함
+   - Table 4는 Transformer의 우수한 성능을 보여줌
+
+# Conclusion
+ - Transformer는 recurrence를 이용하지 않고도 빠르고 정확하게 sequential data를 처리할 수 있는 model로 제시
+ - 가장 핵심적인 것은 encoder와 decoder에서 attention을 통해 query와 가장 밀접한 연관성을 가지는 value를 강조할 수 있고 병렬화가 가능해진 것
+
+
    
    
     
