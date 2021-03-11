@@ -133,6 +133,23 @@
      - k=2i+1일 때는 cosine 함수를,k=2i일 때는 sine함수를 이용
      - 이런 방식으로 positional encoding vencor를 pos마다 구한다면 비록 같은 column이라고 할지라도 pos가 다르다면 다른 값을 가지게 됨
      - 즉,pos마다 다른 pos와 구분되는 positional encoding값을 얻게 된다는 것
+     - 가능한 여러 함수 중 sinusoidal version을 선택한 이유는 학습 때보다 더 긴 sequence를 만나도 추정이 가능하기 때문
+
+# Why Self-Attention
+ - x1,x2...xn를 동일한 길이의 z1,z2,...znn의 다른 시퀀스에 매핑하는데 일반적으로 사용되는  recurrent와 convolution layer와 비교
+ - self-attention가 적합한 이유
+    - layer 당 전체 계산량이 적음
+    - 계산이 병렬화될 수 있음, 병렬적으로 한번에 많은 계산을 할 수 있는데,recurrence의 경우 순차적으로 계산해야하기 때문에 계산 병렬화 불가능
+    - 장거리 학습의 가능 여부,attention을 통해 모든 부분을 확인하니 rnn에 보다 훨씬 먼거리에 있는 시퀀스를 잘학습할 수 있음
+
+   ![image](https://user-images.githubusercontent.com/70500214/110726867-8a5f4180-825d-11eb-8cc9-8eaf07f1c51f.png)
+   
+    - 
+
+
+
+
+
 
     
 
