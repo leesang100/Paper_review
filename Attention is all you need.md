@@ -136,6 +136,63 @@
 
    ![image](https://user-images.githubusercontent.com/70500214/110726867-8a5f4180-825d-11eb-8cc9-8eaf07f1c51f.png)
    
+  
+# Training
+ - 모델에 대한 교육 시스템 설명
+
+
+   # Training Data and Batching
+    - 약 450만 개의 문장 쌍으로 구성된 표준 WMT 2014 English-german 데이터 세트에 대해 교육
+    - 문장은 약 37000개의 토큰의 공유 소스 대상 어휘를 가진 바이트 쌍 인코딩을 사용하여 인코딩
+    - English-French의 경우 36M 문장으로 구성된 훨씬 큰 WMT 2014 영-프랑스 데이터 세트를 사용, 토큰을 32000개의 워드피스 어휘로 분할
+    - 문장 쌍은 대략적인 시퀀스 길이만큼 함께 배치
+    - 각 교육 배치에는 약 25000개의 소스 토큰과 25000개의 대상 토큰을 포함하는 문장 쌍 집합이 포함
+
+   # Hardware and Schedule
+    - 8개의 NVIDIA P100 GPU로 하나의 머신에서 교육
+    - 기본 transformer모델은 12시간,big transformer는 3.5일
+
+   # Optimizer
+    - Adam β1 = 0.9, β2 = 0.98 and e = 10<sub>−9</sub>와 함께 사용
+    - 아래의 공식을 따라 학습 속도를 변화
+    ![image](https://user-images.githubusercontent.com/70500214/110743695-cef9d580-827b-11eb-9818-ed424bff33aa.png)
+    - 이는 첫번째 warmup_step 훈련 단계에 대해 학습속도를 선형적으로 증가시키고 이후 단계 수의 역 제곱근에 비례하여 감소시키는 것과 일치
+    - warmup_step=4000
+
+   # Regularization
+    - Residual Dropout
+      - 드랍아웃을 sub-layer 입력에 추가하고 정규화하기 전에 각 sub-layer의 출력에 적용
+      - 인코더와 디코더 스택 모두 임베딩과 positional encoding의 합계에 드랍아웃을 적용
+      - P<sup>drop</sup>=0.1
+
+    - Label Smoothing
+      - training동안 e<sup>ls</sup>=0.1값의 label smoothing사용
+      - 모델이 더 확실치 않다는 것을 학습하지만 정확도와 BLEU 점수가 향상되기 때문
+
+![image](https://user-images.githubusercontent.com/70500214/110745737-103fb480-827f-11eb-8b5f-972b6d3fd59d.png)
+
+# Results
+   # Machine Translation
+    - WMT 2014 English-German translation작업에서 big-Transformer모델은 이전 보고된 모델들보다 더 좋은 성능을 나타냄
+    - 기본 transformer도 경쟁 모델의 교육 비용의 일부만으로 이전에 발표된 모든 모델과 앙상블을 능가
+    - WMT 2014 English-French translation작업에서 교육 비용의 1/4 미만으로 이전에 발표된 모든 단일 모델을 능하가는 점수를 달성
+
+![image](https://user-images.githubusercontent.com/70500214/110747007-0a4ad300-8281-11eb-8880-a742b69d3682.png)
+
+![image](https://user-images.githubusercontent.com/70500214/110747033-120a7780-8281-11eb-89c5-4ad09aaf97f6.png)
+
+   # Model Variations
+    - Transformer의 다양한 구성 요소의 중요성을 평가하기 위해 English-to-German 번역에 대한 성능 변화를 측정하면서 다양한 방식으로 기본 모델을 변화시킴
+    - Table3의 A에서 attention Head 수와  attetion key,attention value 값을 변화시킴
+    - single-head attention의 BLEU값이 최고 설정치보다 0.9 나쁜 반면,너무 많은 헤드와 함께 품질도 떨어짐
+    - B에서 attention key크기 d<sup>k</sup>를 줄이면 모델 품질이 저하되는것을 관찰
+    - 호환성 판정이 쉽지않고 dot product보다 더 젏교한 호환성 기능이 유리함을 시사
+    - C와D에서 예상대로 더 큰 모델이 더 좋고 dropout이 과적합을 피하는데 매우 도움된다고 관찰
+    - E행에서 sinusoids대신 positional embedding으로 교체하고 기본 모델과 거의 동일한 결과를 관찰
+
+   # English Constituency Parsing
+    - Transformer가 다른 작업으로 
+   
    
     
 
