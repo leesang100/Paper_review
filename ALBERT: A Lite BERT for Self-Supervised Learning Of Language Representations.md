@@ -78,6 +78,6 @@
   - 이어서 feed-forward/filter 크기를 4H로, attention head의 수를 H/64로 설정
   - BERT의 설계 선택에 대해 Albert는 세 가지 주요 기여 존재
 
-   <h5>Factorized embedding parameterization</h5>
+    <h5>Factorized embedding parameterization</h5>
  
  
