@@ -52,6 +52,32 @@
  <h3>Cross-Layer Parameter Sharing</h3>
  
  - Layer간 파라미터를 공유하는 아이디어는 transformer 아키텍처를 통해 탐구 되었지만 이 연구는 사전 학습/미세조정보다는 표준 인코더-디코더 작업에 대한 훈련에 초점을 둠
- - 
+ - cross-layer parameter를 가진 네트워크가 표준 transformer보다 언어 모델링 및 주제-동사 수일치에서 보다 더 나은 성능을 보임
+ - 최근 transformer 네트워크를 위한 심층 평형 모델(DQE)을 제안하고 DQE가 특정 layer의 입력 임베딩과 출력 임베딩이 동일한 평형점에 도달할 수 있음을 보여줌
+ - 임베딩이 수렴하기보다는 진동하다는 것을 보여줌
+ - 파라미터 공유 transformer와 표준 transformer를 결합하여 표준 transformer의 파라미터 수를 더욱 증가 시킴
+
+ <h3>Sentence Ordering Objectives</h3>
+ 
+ - Albert는 텍스트의 연속된 두 세그먼트의 순서를 예측하는 것에 기초한 사전 학습 손실을 사용
+ - Skip-thought와 FastSent 문장 임베딩은 문장의 인코딩을 사용하여 인접 문장의 단어를 예측함으로써 학습됨
+ - 문장 임베딩 학습의 다른 목표로는 근처 이웃들만이 아닌 미래 문장 예측과 명시적 담화 표지어 예측이 있음
+ - 논문의 loss는 두개의 연속된 문장의 순서를 결정하기 위해 문장 임베딩을 학습하는 문서 순서 목표와 유사
+ - 대부분의 작업과 달리 논문의 loss는 문장보다 텍스트 세그먼트에 정의됨
+ - BERT는 쌍의 두번째 세그먼트가 다른 문서의 세그먼트와 스왑 되었는지 여부를 예측하여 loss를 사용함
+ - 실험에서 이러한 loss을 비교하고 sentence ordering이 더 어려운 사전 학습 작업이며 특정 다운스트림 작업에 더 유용하다는 것을 발견
+ 
+# The Elements of Albert
+
+ - Albert에 대한 설계 제시 원본 BERT 아키텍처의 해당 구성에 대한 비교를 제공
+
+ <h3>Model Architecture Choices</h3>
+  
+  - Albert 아키텍처의 뼈대는 GELU의 비선형성을 가진 Transformer의 인코더를 사용(BERT와 유사)
+  - BERT의 표기 규칙을 따르며, 임베딩의 크기를 E, 인코더 layer의 수를 L, 숨겨진 크기(hidden size)를 H로 표시
+  - 이어서 feed-forward/filter 크기를 4H로, attention head의 수를 H/64로 설정
+  - BERT의 설계 선택에 대해 Albert는 세 가지 주요 기여 존재
+
+   <h5>Factorized embedding parameterization</h5>
  
  
